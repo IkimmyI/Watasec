@@ -1,0 +1,18 @@
+[
+  {
+    "title": "IOC sync to firewall",
+    "slug": "ioc-sync-firewall",
+    "date": "2025-10-18",
+    "tags": ["automation","ioc"],
+    "thumb": "",
+    "excerpt": "Tiny HTTP forwarder that serves the latest IOCs to a firewall."
+  },
+  {
+    "title": "Sample: How I automate alerts",
+    "slug": "sample-post",
+    "date": "2025-10-18",
+    "tags": ["automation","alerts"],
+    "thumb": "",
+    "excerpt": "Example article showing images and code blocks."
+  }
+]

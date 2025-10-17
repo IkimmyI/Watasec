@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SOC Notes — writeups</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+
+<!-- highlight.js and marked (markdown renderer) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/5.2.12/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+
+<style>
+  :root{
+    --bg:#f6f7fb;
+    --card:#ffffff;
+    --muted:#6b6f85;
+    --accent:#6b4cff; /* anime violet */
+    --accent-2:#ff78b6; /* pink */
+    --radius:12px;
+    --maxw:1100px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Inter,system-ui,Arial;background:linear-gradient(180deg,#fffafc,var(--bg));color:#111}
+  .wrap{max-width:var(--maxw);margin:28px auto;padding:18px}
+  header{display:flex;align-items:center;gap:16px}
+  .logo{display:flex;align-items:center;gap:12px}
+  .logo .mark{width:48px;height:48px;border-radius:10px;background:linear-gradient(180deg,var(--accent-2),var(--accent));display:flex;align-items:center;justify-content:center;color:white;font-weight:700}
+  .title{font-weight:700;font-size:18px}
+  .subtitle{color:var(--muted);font-size:13px}
+  nav.top{margin-left:auto;display:flex;gap:10px}
+  nav.top a{font-size:13px;color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:10px}
+  nav.top a:hover{background:rgba(107,76,255,0.06);color:var(--accent)}
+  main{display:grid;grid-template-columns:1fr 320px;gap:22px;margin-top:18px}
+  .panel{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:0 8px 20px rgba(15,15,25,0.06)}
+  .posts-grid{display:grid;grid-template-columns:1fr;gap:14px}
+  /* pwntricks-like: list of article cards */
+  .card-post{display:flex;gap:14px;align-items:flex-start;border-radius:10px;padding:14px;border:1px solid rgba(0,0,0,0.04);background:linear-gradient(180deg,rgba(255,255,255,0.9),rgba(255,255,255,0.85))}
+  .card-post .cover{width:200px;height:120px;border-radius:8px;overflow:hidden;flex-shrink:0;background:linear-gradient(135deg,#ffe6f3,#e6f0ff);display:flex;align-items:center;justify-content:center;color:#6b4b86;font-weight:700}
+  .card-post h3{margin:0;font-size:18px}
+  .card-post .meta{color:var(--muted);font-size:13px;margin-top:6px}
+  .card-post .excerpt{color:#222;margin-top:8px;line-height:1.5}
+  .tags{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+  .tag{font-size:12px;padding:6px 10px;border-radius:999px;background:rgba(107,76,255,0.08);color:var(--accent)}
+  a.readmore{margin-left:auto;color:var(--accent);text-decoration:none;font-weight:600}
+  /* article view */
+  .article-hero{padding:18px;border-radius:10px;margin-bottom:12px;background:linear-gradient(180deg,#fff,#fff6ff)}
+  .article-content{line-height:1.7}
+  .article-content img{max-width:100%;height:auto;border-radius:8px;margin:12px 0}
+  pre{border-radius:8px;padding:12px;overflow:auto;background:#0f1724;color:#e6eef8}
+  /* sidebar */
+  .search{display:flex;gap:8px}
+  input[type="search"]{flex:1;padding:9px;border-radius:10px;border:1px solid rgba(0,0,0,0.08)}
+  .widget h4{margin:0 0 8px 0;font-size:14px}
+  .recent-list{display:flex;flex-direction:column;gap:8px}
+  .tag-cloud{display:flex;flex-wrap:wrap;gap:8px}
+  .tag-cloud a{font-size:13px;padding:6px 8px;border-radius:8px;background:rgba(0,0,0,0.03);text-decoration:none;color:var(--muted)}
+  /* responsive */
+  @media (max-width:920px){main{grid-template-columns:1fr} .card-post{flex-direction:column}.card-post .cover{width:100%;height:160px}}
+  footer{margin-top:18px;text-align:center;color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo">
+        <div class="mark">R</div>
+        <div>
+          <div class="title">SOC Notes</div>
+          <div class="subtitle">writeups • hunting • automation</div>
+        </div>
+      </div>
+
+      <nav class="top">
+        <a href="#/">Home</a>
+        <a href="#/tags">Tags</a>
+        <a href="#/about">About</a>
+      </nav>
+    </header>
+
+    <main>
+      <section id="main-col">
+        <div id="listPanel" class="panel">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div>
+              <h2 style="margin:0">Latest writeups</h2>
+              <div style="color:var(--muted);font-size:13px">Technical writeups in short, copy-and-paste friendly</div>
+            </div>
+            <div style="color:var(--muted);font-size:13px" id="countLabel"></div>
+          </div>
+
+          <div id="posts" class="posts-grid" style="margin-top:14px"></div>
+        </div>
+
+        <div id="articlePanel" class="panel" style="display:none;margin-top:16px">
+          <div id="articleHero" class="article-hero"></div>
+          <div id="articleBody" class="article-content"></div>
+        </div>
+      </section>
+
+      <aside>
+        <div class="panel widget">
+          <div class="search">
+            <input id="q" type="search" placeholder="Search titles, tags..." />
+            <button id="searchBtn" style="padding:8px 12px;border-radius:10px;border:0;background:var(--accent);color:#fff">Search</button>
+          </div>
+        </div>
+
+        <div class="panel widget" style="margin-top:14px">
+          <h4>Recent</h4>
+          <div id="recent" class="recent-list"></div>
+        </div>
+
+        <div class="panel widget" style="margin-top:14px">
+          <h4>Tag cloud</h4>
+          <div id="tagsCloud" class="tag-cloud"></div>
+        </div>
+
+        <div class="panel widget" style="margin-top:14px">
+          <h4>About</h4>
+          <div style="color:var(--muted);font-size:14px">SOC writeups, automation tips, hunting rules. Add markdown files to <code>/posts/</code> and update <code>posts.json</code>.</div>
+        </div>
+      </aside>
+    </main>
+
+    <footer>Made with ❤️ — publish on GitHub Pages (add posts.json + posts/)</footer>
+  </div>
+
+<script>
+/*
+  Usage:
+  - posts.json at repo root: array of { title, slug, date, tags (array), thumb (optional), excerpt }
+  - markdown files at /posts/<slug>.md
+  - images in /images/ or /posts/...
+  Example posts.json:
+  [
+    {"title":"IOC sync","slug":"ioc-sync-firewall","date":"2025-10-18","tags":["automation","ioc"],"thumb":"/images/ioc-thumb.jpg","excerpt":"Tiny HTTP forwarder for IOCs."}
+  ]
+*/
+
+const INDEX='/posts.json';
+let postsIndex = [];
+
+// tiny helper: extract first image URLs from markdown
+function extractImages(md){
+  const re = /!\[[^\]]*\]\(([^)]+)\)/g;
+  const imgs=[];
+  let m;
+  while((m=re.exec(md))!==null) imgs.push(m[1]);
+  return imgs;
+}
+
+// safe fetch JSON and text
+async function fetchIndex(){
+  try{
+    const r = await fetch(INDEX, {cache:'no-store'});
+    if(!r.ok) throw new Error('index not found');
+    postsIndex = await r.json();
+    return true;
+  }catch(e){
+    console.warn('Could not load posts.json:', e);
+    postsIndex = [];
+    return false;
+  }
+}
+
+function mkExcerpt(md, n=200){
+  if(!md) return '';
+  const s = md.replace(/(!\[[^\]]*\]\([^)]+\))/g,'').replace(/```[\s\S]*?```/g,'').replace(/\n+/g,' ').trim();
+  return s.slice(0,n) + (s.length>n?'...':'');
+}
+
+async function renderList(q){
+  document.getElementById('articlePanel').style.display='none';
+  document.getElementById('listPanel').style.display='block';
+  const container = document.getElementById('posts'); container.innerHTML='';
+  const filtered = (postsIndex||[]).filter(p=>{
+    if(!q) return true;
+    const Q=q.toLowerCase();
+    const tags = (p.tags||[]).join(' ');
+    return p.title.toLowerCase().includes(Q) || tags.toLowerCase().includes(Q) || (p.excerpt||'').toLowerCase().includes(Q);
+  });
+
+  document.getElementById('countLabel').textContent = filtered.length + ' posts';
+
+  for(const p of filtered){
+    // build card
+    const card = document.createElement('article'); card.className='card-post';
+    const cover = document.createElement('div'); cover.className='cover';
+    if(p.thumb){
+      cover.innerHTML = '<img src="'+p.thumb+'" alt="thumb" style="width:100%;height:100%;object-fit:cover">';
+    } else {
+      // try to fetch markdown to get images (but don't fail)
+      cover.textContent = p.tags && p.tags[0] ? p.tags[0] : 'note';
+    }
+    card.appendChild(cover);
+
+    const info = document.createElement('div'); info.style.flex='1';
+    const h = document.createElement('h3');
+    const a = document.createElement('a'); a.href = '#/article/'+p.slug; a.textContent = p.title; a.style.color='inherit'; a.style.textDecoration='none';
+    h.appendChild(a); info.appendChild(h);
+    const meta = document.createElement('div'); meta.className='meta'; meta.textContent = (new Date(p.date||p.created||'')).toLocaleDateString();
+    info.appendChild(meta);
+    const ex = document.createElement('div'); ex.className='excerpt';
+    ex.textContent = p.excerpt || '';
+    info.appendChild(ex);
+
+    // tags + read link
+    const bottom = document.createElement('div'); bottom.style.display='flex'; bottom.style.alignItems='center'; bottom.style.marginTop='8px';
+    const tagsWrap = document.createElement('div'); tagsWrap.className='tags';
+    (p.tags||[]).forEach(t=>{ const s=document.createElement('span'); s.className='tag'; s.textContent = t; s.onclick = ()=>{renderList(t)}; tagsWrap.appendChild(s) });
+    bottom.appendChild(tagsWrap);
+
+    const read = document.createElement('a'); read.className='readmore'; read.href='#/article/'+p.slug; read.textContent='Read →';
+    bottom.appendChild(read);
+
+    info.appendChild(bottom);
+    card.appendChild(info);
+    container.appendChild(card);
+
+    // if no thumb, try to get first image async and set cover
+    if(!p.thumb){
+      (async ()=>{
+        try{
+          const r = await fetch('/posts/'+p.slug+'.md', {cache:'no-store'});
+          if(!r.ok) return;
+          const md = await r.text();
+          const imgs = extractImages(md);
+          if(imgs.length){
+            cover.innerHTML = '<div style="display:flex;gap:6px">'+imgs.slice(0,3).map(u=>`<img src="${u}" style="width:80px;height:56px;object-fit:cover;border-radius:6px">`).join('')+'</div>';
+          }
+          // also populate excerpt if missing
+          if(!p.excerpt){
+            const exText = mkExcerpt(md,220);
+            ex.textContent = exText;
+          }
+        }catch(e){}
+      })();
+    }
+  }
+}
+
+// render single article
+async function renderArticle(slug){
+  const idx = (postsIndex||[]).find(p=>p.slug===slug);
+  if(!idx){ alert('Article not found in posts.json'); location.hash='#/'; return; }
+  document.getElementById('listPanel').style.display='none';
+  document.getElementById('articlePanel').style.display='block';
+  document.getElementById('articleHero').innerHTML = `<h1 style="margin:0">${idx.title}</h1><div style="color:var(--muted);margin-top:8px">${(new Date(idx.date||'')).toLocaleDateString()}</div><div class="tags">${(idx.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div>`;
+
+  try{
+    const r = await fetch('/posts/'+slug+'.md', {cache:'no-store'});
+    if(!r.ok) throw new Error('post not found');
+    const md = await r.text();
+    // use marked to render
+    marked.setOptions({
+      highlight: function(code, lang){
+        try { return hljs.highlight(code, {language: lang || 'plaintext'}).value }
+        catch(e){ return hljs.highlightAuto(code).value }
+      }
+    });
+    const html = marked.parse(md);
+    document.getElementById('articleBody').innerHTML = html;
+    // run highlight on any remaining code blocks
+    document.querySelectorAll('pre code').forEach(block => hljs.highlightElement(block));
+    window.scrollTo(0,0);
+  }catch(e){
+    document.getElementById('articleBody').innerHTML = '<div style="color:var(--muted)">Could not load article markdown. Make sure /posts/'+slug+'.md exists.</div>';
+  }
+}
+
+// tags cloud & recent
+function renderSidebar(){
+  const recent = document.getElementById('recent'); recent.innerHTML='';
+  (postsIndex||[]).slice(0,6).forEach(p=>{
+    const d = document.createElement('div');
+    d.innerHTML = `<a href="#/article/${p.slug}" style="text-decoration:none;color:inherit">${p.title}</a><div style="color:var(--muted);font-size:12px">${(new Date(p.date||'')).toLocaleDateString()}</div>`;
+    recent.appendChild(d);
+  });
+  // tag cloud
+  const allTags = {};
+  (postsIndex||[]).forEach(p=> (p.tags||[]).forEach(t=> allTags[t] = (allTags[t]||0)+1 ));
+  const cloud = document.getElementById('tagsCloud'); cloud.innerHTML='';
+  Object.keys(allTags).sort((a,b)=>allTags[b]-allTags[a]).forEach(t=>{
+    const a = document.createElement('a'); a.href='#/'; a.textContent = t; a.onclick = (ev)=>{ev.preventDefault(); renderList(t)};
+    cloud.appendChild(a);
+  });
+}
+
+// routing
+function route(){
+  const h = location.hash || '#/';
+  if(h.startsWith('#/article/')) renderArticle(h.replace('#/article/',''));
+  else if(h.startsWith('#/tags')) { renderList(); /* could show tag page */ }
+  else renderList();
+}
+
+// init
+(async ()=>{
+  await fetchIndex();
+  renderSidebar();
+  route();
+  window.addEventListener('hashchange', route);
+  document.getElementById('searchBtn').addEventListener('click', ()=>renderList(document.getElementById('q').value));
+  document.getElementById('q').addEventListener('keydown', e=>{ if(e.key==='Enter') renderList(document.getElementById('q').value) });
+})();
+</script>
+</body>
+</html>
