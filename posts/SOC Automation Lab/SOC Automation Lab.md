@@ -652,6 +652,9 @@ We can confirm that we are unable to ping or connect to the Linux machine from t
 
 ![screenshot](./Images/49.png)
 
+![screenshot](./Images/50.png)
+
+
 ## Conclusion
 
 This article involves setting up a Security Operations Center (SOC) lab with Wazuh SIEM. It covers deploying and configuring Wazuh agents, simulating an attack to demonstrate threat detection and response, and integrating automation using Shuffle SOAR to enhance SOC operations.
