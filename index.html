@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Simple MD Blog</title>
+  <title>Watasec</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
   <style>
     :root{--bg:#0f172a;--card:#0b1220;--muted:#9aa4bf;--accent:#7dd3fc}
@@ -28,14 +28,13 @@
 #postContent video,
 #postContent iframe,
 #postContent table {
-  max-width: 100% !important;   /* never exceed container width */
+  max-width: 100% !important;
   width: auto !important;
   height: auto !important;
-  display: block;               /* avoids baseline gaps that can create overflow */
+  display: block;
   box-sizing: border-box;
 }
 
-/* Allow long words/URLs to wrap instead of creating horizontal scroll */
 #postContent,
 #postContent p,
 #postContent li {
@@ -44,14 +43,11 @@
   word-break: break-word;
 }
 
-/* For code blocks keep internal horizontal scroll but not whole page */
 #postContent pre {
   overflow-x: auto;
   white-space: pre;
 }
 
-/* As a last resort: keep the page from showing page-level horizontal scroll,
-   but prefer to fix the offending element first. */
 html, body {
   max-width: 100%;
   overflow-x: hidden;
@@ -62,7 +58,7 @@ html, body {
 <body>
   <div class="wrap">
     <header>
-      <h1>My Articles</h1>
+      <h1>0xKimmy Articles Website</h1>
       <small class="muted">Add markdown files to <code>/posts/</code> and list them in <code>/posts/posts.json</code></small>
     </header>
 
@@ -78,10 +74,7 @@ html, body {
 
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
-    // Basic client-side markdown blog loader
-    // Expects a JSON index at /posts/posts.json with entries like:
-    // [{"title":"My post","slug":"my-post","date":"2025-10-18","excerpt":"short...","file":"posts/my-post.md","cover":"posts/my-post-cover.png"}, ...]
-
+  
     const cardsEl = document.getElementById('cards');
     const postView = document.getElementById('postView');
     const listView = document.getElementById('listView');
@@ -98,7 +91,6 @@ html, body {
         if(!res.ok) throw new Error('posts.json not found');
         POSTS = await res.json();
         renderCards();
-        // if there's a hash like #post=slug open it
         handleRouting();
       }catch(e){
         cardsEl.innerHTML = `<div style="grid-column:1/-1;padding:30px;background:rgba(0,0,0,0.2);border-radius:8px">Could not load posts.json — add <code>/posts/posts.json</code> to your repo. Error: ${e.message}</div>`;
@@ -133,12 +125,11 @@ html, body {
         const res = await fetch(post.file.replace(/^\/+/, ''));
         if(!res.ok) throw new Error('markdown not found');
         let md = await res.text();
-        // render markdown to html
         let html = marked.parse(md);
-        // fix relative image/src paths so images placed alongside .md work
+
         const postDir = post.file.includes('/') ? post.file.substring(0, post.file.lastIndexOf('/')+1) : '';
         html = html.replace(/(<img[^>]+src=")(?!(https?:|\/))([^\"]+)(")/g, (m,a,b,c,d)=> a + postDir + c + d);
-        // also fix links that are relative (optional)
+
         html = html.replace(/(<a[^>]+href=")(?!(https?:|mailto:|\/))([^\"]+)(")/g, (m,a,b,c,d)=> a + postDir + c + d);
         postContent.innerHTML = `<h2>${post.title}</h2><div class="muted">${formatDate(post.date)}</div><hr>` + html;
       }catch(e){ postContent.innerHTML = `<div class="muted">Error loading post: ${e.message}</div>` }
@@ -161,7 +152,6 @@ html, body {
 
     backBtn.addEventListener('click', (e)=>{ e.preventDefault(); closePost(); });
 
-    // init
     loadIndex();
   </script>
 </body>
