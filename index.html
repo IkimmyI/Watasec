@@ -63,7 +63,7 @@
 
     async function loadIndex(){
       try{
-        const res = await fetch('/posts/posts.json');
+        const res = await fetch('posts/posts.json');
         if(!res.ok) throw new Error('posts.json not found');
         POSTS = await res.json();
         renderCards();
@@ -99,7 +99,7 @@
       postView.style.display = 'block';
       postContent.innerHTML = '<em>loading…</em>';
       try{
-        const res = await fetch('/' + post.file.replace(/^\//,''));
+        const res = await fetch('/' + post.file.replace(/^\/+/,''));
         if(!res.ok) throw new Error('markdown not found');
         let md = await res.text();
         // render markdown to html
