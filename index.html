@@ -24,7 +24,38 @@
     .back{display:inline-block;margin-bottom:10px;text-decoration:none;color:var(--accent)}
     img.responsive{max-width:100%;height:auto;border-radius:6px}
     pre{background:#000a12;padding:12px;border-radius:8px;overflow:auto}
+#postContent img,
+#postContent video,
+#postContent iframe,
+#postContent table {
+  max-width: 100% !important;   /* never exceed container width */
+  width: auto !important;
+  height: auto !important;
+  display: block;               /* avoids baseline gaps that can create overflow */
+  box-sizing: border-box;
+}
 
+/* Allow long words/URLs to wrap instead of creating horizontal scroll */
+#postContent,
+#postContent p,
+#postContent li {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+/* For code blocks keep internal horizontal scroll but not whole page */
+#postContent pre {
+  overflow-x: auto;
+  white-space: pre;
+}
+
+/* As a last resort: keep the page from showing page-level horizontal scroll,
+   but prefer to fix the offending element first. */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
     @media (max-width:600px){body{padding:12px}.cover{height:110px}}
   </style>
 </head>
