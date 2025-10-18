@@ -1,6 +1,6 @@
 # Jscalc Challenges — HTB (easy) — Writeup
 
-![screenshot](D:\VS-code-Projects\Kimmy-Website\Watasec\posts\Thumbnail\Hack-The-Box-logo.png)
+![screenshot](https://miro.medium.com/v2/resize:fit:2000/format:webp/1*3IfdUVIvNhAZEAUKEz_cAw.png)
 
 ## Description
 
