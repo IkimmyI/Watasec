@@ -99,7 +99,7 @@
       postView.style.display = 'block';
       postContent.innerHTML = '<em>loading…</em>';
       try{
-        const res = await fetch('/' + post.file.replace(/^\/+/,''));
+        const res = await fetch(post.file.replace(/^\/+/, ''));
         if(!res.ok) throw new Error('markdown not found');
         let md = await res.text();
         // render markdown to html
