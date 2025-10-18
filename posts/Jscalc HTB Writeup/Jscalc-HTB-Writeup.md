@@ -20,29 +20,29 @@ I found an `eval()` usage in a Node.js-powered site which allowed remote code ex
 
 After downloading the challenge files and unzipping them we see the extracted files:
 
-![](./image1)
+![screenshot](https://miro.medium.com/v2/resize:fit:1100/format:webp/1*Alc3Jf5AYxSq7Wo-faGRSw.png)
 
 Nothing interesting at first glance, so I inspected the web app.
 
 ### 2. Open the website
 
-![](./image2)
+![screenshot](https://miro.medium.com/v2/resize:fit:1100/format:webp/1*aMJoxNYzC_JaQveYS5ZD6Q.png)
 
 ### 3. Spot `eval()` usage
 
 The site uses `eval()` to evaluate formulas. Quick reminder: `eval()` executes the string it's given in the caller's context — if that string can be influenced by an attacker, it can run arbitrary code in the environment of the webpage (or the Node process if running server-side).
 
-![](./image3)
+![screenshot](https://miro.medium.com/v2/resize:fit:1100/format:webp/1*ow1lbwAvkE_f7CFyCNPjCA.png)
 
 Because `package.json` showed the app runs on **Node.js**, server-side JavaScript execution opens the door to `require()` and the full Node API — meaning we can attempt RCE.
 
-![](./image4)
+![screenshot](https://miro.medium.com/v2/resize:fit:2000/format:webp/1*BHu3oMUgpRV9gAT1h03EVQ.png)
 
 ### 4. Intercepting requests with Burp Suite
 
 I inspected requests with Burp and noticed the endpoint accepts a `formula` parameter. I tested injecting `require('fs')` into that parameter.
 
-![](./image5)
+![screenshot](https://miro.medium.com/v2/resize:fit:2000/format:webp/1*AZRueOxoAUjc0eqtheQWnQ.png)
 
 ### 5. Using `fs` to explore the filesystem
 
@@ -68,7 +68,7 @@ Next payload to read the flag file:
 require('fs').readFileSync('/flag.txt').toString();
 ```
 
-![](./image6)
+![screenshot](https://miro.medium.com/v2/resize:fit:2000/format:webp/1*AZRueOxoAUjc0eqtheQWnQ.png)
 
 And — boom — we obtained the flag.
 
@@ -100,6 +100,4 @@ require('fs').readFileSync('/flag.txt').toString();
 
 ## Final
 
-Thanks for reading — that’s the full journey from spotting `eval()` to reading `/flag.txt` using Node's `fs` module.
-
-*If you want, I can convert this to a single-file markdown post ready for your blog, or add front-matter and formatting for a specific static site generator.*
+Thanks for reading
