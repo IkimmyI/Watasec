@@ -1,6 +1,6 @@
 # Jscalc Challenges — HTB (easy) — Writeup
 
-<img src="https://miro.medium.com/v2/resize:fit:2000/format:webp/1*3IfdUVIvNhAZEAUKEz_cAw.png" alt="screenshot" width="700" />
+![screenshot](https://miro.medium.com/v2/resize:fit:2000/format:webp/1*3IfdUVIvNhAZEAUKEz_cAw.png)
 
 ## Description
 
