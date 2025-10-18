@@ -14,5 +14,13 @@
     "excerpt": "Quick guide on setting up a Security Operations Center (SOC) lab for automation practice and SOC analysis.",
     "file": "posts/SOC Automation Lab/SOC Automation Lab.md",
     "cover": "posts/Thumbnail/SOC-Automation-Lab.png"
+  },
+  {
+    "title": "LOLBAS Defenses for SOC",
+    "slug": "LOLBAS-Defenses-for-SOC",
+    "date": "2025-10-18",
+    "excerpt": "Quick guide on implementing LOLBAS defenses within a Security Operations Center (SOC) environment.",
+    "file": "posts/LOLBAS Defenses for SOC/LOLBAS Defenses for SOC.md",
+    "cover": "posts/Thumbnail/lolbas.png"
   }
 ]
