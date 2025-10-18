@@ -143,5 +143,4 @@ Splunk Enterprise Security (ES) provides correlation searches (also known as ana
 
 **ATT&CK Mappings**: T1021.003 (Remote Services: Distributed Component Object Model), T1218.014 (System Binary Proxy Execution: MMC).
 
-
 Thank you for reading
