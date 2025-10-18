@@ -89,7 +89,6 @@ Splunk Enterprise Security (ES) provides correlation searches (also known as ana
 
 **ATT&CK Mappings**: T1218 (System Binary Proxy Execution).
 
-**Implementation Notes**: Requires Sysmon Event ID 3 or similar for network data. Run hourly; creates notables with risk score 25 on source systems.
 
 #### Example 2: Services LOLBAS Execution Process Spawn
 **Description**: Identifies `services.exe` (Service Control Manager) spawning LOLBAS processes, which may signal adversaries executing code via Windows services for persistence or escalation.
@@ -107,7 +106,6 @@ Splunk Enterprise Security (ES) provides correlation searches (also known as ana
 
 **ATT&CK Mappings**: T1543.003 (Create or Modify System Process: Windows Service).
 
-**Implementation Notes**: Uses EDR data like Sysmon Event ID 1 or Windows Event Log 4688. Risk score: 54 on affected systems.
 
 #### Example 3: Windows LOLBAS Executed As Renamed File
 **Description**: Flags LOLBAS processes where the executed name differs from the original file name, indicating potential masquerading to evade detection.
@@ -128,7 +126,6 @@ Splunk Enterprise Security (ES) provides correlation searches (also known as ana
 
 **ATT&CK Mappings**: T1036.003 (Masquerading: Rename System Utilities), T1218.011 (System Binary Proxy Execution: Rundll32).
 
-**Implementation Notes**: Requires process metadata from EDR; risk score: 40 per object.
 
 #### Example 4: Mmc LOLBAS Execution Process Spawn
 **Description**: Detects `mmc.exe` (Microsoft Management Console) spawning LOLBAS processes, often via DCOM for lateral movement.
@@ -146,6 +143,5 @@ Splunk Enterprise Security (ES) provides correlation searches (also known as ana
 
 **ATT&CK Mappings**: T1021.003 (Remote Services: Distributed Component Object Model), T1218.014 (System Binary Proxy Execution: MMC).
 
-**Implementation Notes**: Ingests process creation logs; generates notables with risk score 54.
 
 Thank you for reading
