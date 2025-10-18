@@ -1,18 +1,18 @@
 [
   {
-    "title": "My First Article",
-    "slug": "my-first-article",
-    "date": "2025-10-18",
-    "excerpt": "A short summary that shows on the card.",
-    "file": "posts/first post/post.md",
-    "cover": "posts/Thumbnail/1.png"
-  },
-  {
     "title": "Jscalc HTB Writeup",
     "slug": "jscalc-htb-writeup",
     "date": "2025-09-05",
     "excerpt": "Quick tips and notes.",
     "file": "posts/Jscalc HTB Writeup/Jscalc-HTB-Writeup.md",
     "cover": "posts/Thumbnail/Hack-The-Box-logo.png"
+  },
+  {
+    "title": "SOC Automation Lab",
+    "slug": "soc-automation-lab",
+    "date": "2025-04-03",
+    "excerpt": "Quick guide on setting up a Security Operations Center (SOC) lab for automation practice and SOC analysis.",
+    "file": "posts/SOC Automation Lab/SOC Automation Lab.md",
+    "cover": "posts/Thumbnail/SOC-Automation-Lab.png"
   }
 ]
