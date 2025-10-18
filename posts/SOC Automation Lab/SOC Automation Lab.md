@@ -1,3 +1,5 @@
+### SOC Automation Lab — By Kimmy
+
 ---
 
 Author: Rakan Adnan (Kimmy)
@@ -5,8 +7,6 @@ Author: Rakan Adnan (Kimmy)
 Date: 3 April 2025
 
 ---
-
-### SOC Automation Lab — By Kimmy
 
 ![screenshot](./Images/1.png)
 
