@@ -148,6 +148,4 @@ Splunk Enterprise Security (ES) provides correlation searches (also known as ana
 
 **Implementation Notes**: Ingests process creation logs; generates notables with risk score 54.
 
-These rules can be customized with macros for filtering false positives. For full implementation, import from Splunk's GitHub repository and map data to CIM models. Regular tuning based on environment baselines is recommended to minimize noise.
-
-By integrating these strategies, SOC teams can reduce the effectiveness of LOLBAS exploits, turning the attackers' reliance on legitimate tools into a detection advantage.
+Thank you for reading
