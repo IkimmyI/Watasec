@@ -5,7 +5,7 @@
     "date": "2025-10-18",
     "excerpt": "A short summary that shows on the card.",
     "file": "posts/first post/post.md",
-    "cover": "posts/first post/1.png"
+    "cover": "posts/Thumbnail/1.png"
   },
   {
     "title": "Jscalc HTB Writeup",
