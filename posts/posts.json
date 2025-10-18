@@ -8,11 +8,11 @@
     "cover": "posts/first post/1.png"
   },
   {
-    "title": "Another Short Post",
-    "slug": "another-post",
+    "title": "Jscalc HTB Writeup",
+    "slug": "jscalc-htb-writeup",
     "date": "2025-09-05",
     "excerpt": "Quick tips and notes.",
-    "file": "posts/another-post.md",
-    "cover": "posts/another-cover.png"
+    "file": "posts/Jscalc HTB Writeup/Jscalc-HTB-Writeup.md",
+    "cover": "posts/Thumbnail/Hack-The-Box-logo.png"
   }
 ]
