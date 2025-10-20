@@ -3,201 +3,201 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Watasec — Cyber Anime Zone</title>
-
+  <title>Watasec</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@600&display=swap" rel="stylesheet">
-
   <style>
-    :root {
-      --bg1: #030712;
-      --bg2: #060b1c;
-      --card: #0a0f24;
-      --accent: #ff6ee6;
-      --neon: #00f3ff;
-      --text: #e8f3ff;
-      --muted: #94a3b8;
-    }
+    :root{--bg:#0f172a;--card:#0b1220;--muted:#9aa4bf;--accent:#7dd3fc}
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial; background:linear-gradient(180deg,#071024,#031027); color:#e6eef8; padding:28px}
+    .wrap{max-width:1000px;margin:0 auto}
+    header.site-header{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  margin-bottom:18px;
+  text-align:center;
+}
 
-    body {
-      margin: 0;
-      font-family: 'Share Tech Mono', monospace;
-      background: radial-gradient(circle at 30% 20%, #0d152e, #030712 70%);
-      color: var(--text);
-      overflow-x: hidden;
-    }
+/* make the name slightly larger and prominent */
+header.site-header .site-name{
+  margin:0;
+  font-size:22px;
+  letter-spacing:0.4px;
+  font-weight:600;
+}
 
-    header {
-      text-align: center;
-      padding: 40px 0;
-      color: var(--neon);
-      font-family: 'Orbitron', sans-serif;
-      text-shadow: 0 0 10px var(--neon), 0 0 20px var(--neon);
-      font-size: 2.2rem;
-      letter-spacing: 2px;
-    }
+/* About link under the name */
+.about-link{
+  display:inline-block;
+  margin-top:2px;
+  padding:6px 10px;
+  border-radius:8px;
+  text-decoration:none;
+  color:var(--accent);
+  background: rgba(125,211,252,0.05);
+  box-shadow: 0 2px 6px rgba(7,20,36,0.35);
+  transition: transform .12s, box-shadow .12s;
+  font-size:13px;
+}
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 20px;
-      padding: 0 40px 100px;
-    }
+/* hover effect for About */
+.about-link:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(7,20,36,0.45);
+}
 
-    .card {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 0 20px rgba(0, 255, 255, 0.08);
-      cursor: pointer;
-      transform: scale(0.9);
-      opacity: 0;
-      transition: transform 0.3s ease;
-      position: relative;
-    }
+/* keep the small description centered and readable */
+.muted.desc{
+  max-width:820px;
+  display:block;
+  text-align:center;
+  font-size:13px;
+  margin-top:4px;
+}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+    .card{background:var(--card);border-radius:12px;overflow:hidden;box-shadow:0 6px 18px rgba(2,6,23,0.6);cursor:pointer;transition:transform .14s}
+    .card:hover{transform:translateY(-6px)}
+    .cover{height:140px;background:#061222;background-size:cover;background-position:center}
+    .meta{padding:12px}
+    .meta h3{margin:0 0 8px 0;font-size:16px}
+    .muted{color:var(--muted);font-size:13px}
+    .excerpt{margin-top:8px;color:#d7e3fbcc;font-size:14px}
+    #postView{display:none}
+    #postView .post{background:var(--card);padding:20px;border-radius:10px}
+    .back{display:inline-block;margin-bottom:10px;text-decoration:none;color:var(--accent)}
+    img.responsive{max-width:100%;height:auto;border-radius:6px}
+    pre{background:#000a12;padding:12px;border-radius:8px;overflow:auto}
+#postContent img,
+#postContent video,
+#postContent iframe,
+#postContent table {
+  max-width: 100% !important;
+  width: auto !important;
+  height: auto !important;
+  display: block;
+  box-sizing: border-box;
+}
 
-    .card:hover {
-      transform: scale(1.03);
-      box-shadow: 0 0 25px rgba(255, 111, 247, 0.4);
-    }
+#postContent,
+#postContent p,
+#postContent li {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+}
 
-    .cover {
-      height: 150px;
-      background-size: cover;
-      background-position: center;
-      filter: brightness(0.8);
-    }
+#postContent pre {
+  overflow-x: auto;
+  white-space: pre;
+}
 
-    .meta {
-      padding: 15px;
-    }
-
-    .meta h3 {
-      margin: 0 0 10px;
-      font-size: 1rem;
-      color: var(--neon);
-      text-shadow: 0 0 6px var(--neon);
-    }
-
-    .meta .muted {
-      color: var(--muted);
-      font-size: 0.8rem;
-    }
-
-    .excerpt {
-      color: var(--text);
-      margin-top: 10px;
-      font-size: 0.9rem;
-    }
-
-    /* Floating anime gif */
-    .anime-float {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      width: 120px;
-      height: 120px;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 0 25px rgba(255, 111, 247, 0.4);
-      border: 2px solid rgba(255, 255, 255, 0.1);
-      z-index: 1000;
-    }
-
-    .anime-float img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    /* Neon glow effect on hover */
-    .card::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      background: radial-gradient(circle, rgba(255,111,247,0.1) 0%, transparent 70%);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    .card:hover::after { opacity: 1; }
-
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+    @media (max-width:600px){body{padding:12px}.cover{height:110px}}
   </style>
 </head>
 <body>
-  <header id="title">Watasec — Anime SOC Logs</header>
+  <div class="wrap">
+    <header class="site-header">
+  <h1 class="site-name">0xKimmy</h1>
+  <a class="about-link" href="./About/about.html" title="About 0xKimmy">About</a>
+  <small class="muted desc">This website features articles about Cyber Security, SOC Analysis, and Automation by Rakan Adnan.</small>
+</header>
 
-  <main>
-    <div class="grid" id="cards"></div>
-  </main>
 
-  <div class="anime-float" id="animeBox">
-    <img src="./anime.gif" alt="anime girl">
+    <main id="listView">
+      <div id="cards" class="grid"></div>
+    </main>
+
+    <section id="postView">
+      <a href="#" id="backBtn" class="back">← back to list</a>
+      <div id="postContent" class="post"></div>
+    </section>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
+  
     const cardsEl = document.getElementById('cards');
+    const postView = document.getElementById('postView');
+    const listView = document.getElementById('listView');
+    const postContent = document.getElementById('postContent');
+    const backBtn = document.getElementById('backBtn');
 
-    // Example post data (you can replace with posts.json fetch)
-    const posts = [
-      { title: "LOLBAS: Living off the Land Attacks", date: "2025-10-19", excerpt: "Understanding how attackers weaponize trusted binaries.", cover: "https://i.imgur.com/Nr0wz1M.jpeg" },
-      { title: "SOC Automation with Wazuh + Shuffle", date: "2025-10-12", excerpt: "How to build automated incident workflows for detection & response.", cover: "https://i.imgur.com/j1qOjqk.jpeg" },
-      { title: "Memory Forensics in Action", date: "2025-10-05", excerpt: "Using Volatility 3 to detect stealthy persistence mechanisms.", cover: "https://i.imgur.com/IcOaD6b.jpeg" }
-    ];
+    let POSTS = [];
 
-    // Create cards
-    posts.forEach((p, i) => {
-      const card = document.createElement('div');
-      card.className = 'card';
-      card.innerHTML = `
-        <div class="cover" style="background-image:url('${p.cover}')"></div>
-        <div class="meta">
-          <h3>${p.title}</h3>
-          <div class="muted">${p.date}</div>
-          <div class="excerpt">${p.excerpt}</div>
-        </div>`;
-      cardsEl.appendChild(card);
-    });
+    function formatDate(s){ try{ return new Date(s).toLocaleDateString() }catch(e){return s} }
 
-    // Animate cards entrance
-    anime({
-      targets: '.card',
-      opacity: [0, 1],
-      scale: [0.9, 1],
-      translateY: [40, 0],
-      delay: anime.stagger(200, { start: 500 }),
-      duration: 1000,
-      easing: 'easeOutElastic(1, .8)'
-    });
+    async function loadIndex(){
+      try{
+        const res = await fetch('posts/posts.json');
+        if(!res.ok) throw new Error('posts.json not found');
+        POSTS = await res.json();
+        renderCards();
+        handleRouting();
+      }catch(e){
+        cardsEl.innerHTML = `<div style="grid-column:1/-1;padding:30px;background:rgba(0,0,0,0.2);border-radius:8px">Could not load posts.json — add <code>/posts/posts.json</code> to your repo. Error: ${e.message}</div>`;
+      }
+    }
 
-    // Title glow animation loop
-    anime({
-      targets: '#title',
-      textShadow: [
-        { value: '0 0 10px #00f3ff, 0 0 20px #00f3ff, 0 0 40px #ff6ee6' },
-        { value: '0 0 3px #ff6ee6, 0 0 15px #ff6ee6, 0 0 30px #00f3ff' }
-      ],
-      direction: 'alternate',
-      duration: 2500,
-      loop: true,
-      easing: 'easeInOutSine'
-    });
+    function renderCards(){
+      cardsEl.innerHTML = POSTS.map(p => `
+        <article class="card" data-slug="${p.slug}" onclick="openPost('${p.slug}')">
+          <div class="cover" style="background-image:url('${p.cover || ''}')"></div>
+          <div class="meta">
+            <h3>${p.title}</h3>
+            <div class="muted">${formatDate(p.date)} • ${p.slug}</div>
+            <div class="excerpt">${p.excerpt || ''}</div>
+          </div>
+        </article>
+      `).join('');
+    }
 
-    // Floating anime gif idle animation
-    anime({
-      targets: '#animeBox',
-      translateY: [
-        { value: -12, duration: 2000, easing: 'easeInOutSine' },
-        { value: 0, duration: 2000, easing: 'easeInOutSine' }
-      ],
-      loop: true
-    });
+    async function openPost(slug){
+      const post = POSTS.find(p => p.slug === slug);
+      if(!post) return alert('post not found');
+      history.pushState({post:slug}, '', `#post=${slug}`);
+      showPost(post);
+    }
 
+    async function showPost(post){
+      listView.style.display = 'none';
+      postView.style.display = 'block';
+      postContent.innerHTML = '<em>loading…</em>';
+      try{
+        const res = await fetch(post.file.replace(/^\/+/, ''));
+        if(!res.ok) throw new Error('markdown not found');
+        let md = await res.text();
+        let html = marked.parse(md);
+
+        const postDir = post.file.includes('/') ? post.file.substring(0, post.file.lastIndexOf('/')+1) : '';
+        html = html.replace(/(<img[^>]+src=")(?!(https?:|\/))([^\"]+)(")/g, (m,a,b,c,d)=> a + postDir + c + d);
+
+        html = html.replace(/(<a[^>]+href=")(?!(https?:|mailto:|\/))([^\"]+)(")/g, (m,a,b,c,d)=> a + postDir + c + d);
+        postContent.innerHTML = `<h2>${post.title}</h2><div class="muted">${formatDate(post.date)}</div><hr>` + html;
+      }catch(e){ postContent.innerHTML = `<div class="muted">Error loading post: ${e.message}</div>` }
+    }
+
+    function closePost(){
+      history.pushState({}, '', window.location.pathname);
+      postView.style.display = 'none';
+      listView.style.display = 'block';
+    }
+
+    window.addEventListener('popstate', () => { handleRouting(); });
+    window.addEventListener('hashchange', () => { handleRouting(); });
+
+    function handleRouting(){
+      const h = location.hash || '';
+      if(h.startsWith('#post=')){ const slug = h.split('=')[1]; const post = POSTS.find(p=>p.slug===slug); if(post) showPost(post); }
+      else closePost();
+    }
+
+    backBtn.addEventListener('click', (e)=>{ e.preventDefault(); closePost(); });
+
+    loadIndex();
   </script>
 </body>
 </html>
