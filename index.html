@@ -1,202 +1,620 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Watasec</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>0xKimmy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Space+Grotesk:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    :root{--bg:#0f172a;--card:#0b1220;--muted:#9aa4bf;--accent:#7dd3fc}
-    body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial; background:linear-gradient(180deg,#071024,#031027); color:#e6eef8; padding:28px}
-    .wrap{max-width:1000px;margin:0 auto}
-    header.site-header{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:6px;
-  margin-bottom:18px;
-  text-align:center;
-}
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* make the name slightly larger and prominent */
-header.site-header .site-name{
-  margin:0;
-  font-size:22px;
-  letter-spacing:0.4px;
-  font-weight:600;
-}
+    :root {
+      --bg:       #09090c;
+      --surface:  #0f0f14;
+      --border:   #1c1c26;
+      --border-hi:#2a2a3a;
+      --text:     #e2e8f8;
+      --muted:    #3a3a52;
+      --soft:     #7878a0;
+      --amber:    oklch(0.68 0.18 220);
+      --amber-d:  oklch(0.28 0.10 220);
+      --green:    oklch(0.68 0.16 155);
+      --ff-serif: 'Syne', sans-serif;
+      --ff-mono:  'JetBrains Mono', monospace;
+      --ff-sans:  'Space Grotesk', sans-serif;
+    }
 
-/* About link under the name */
-.about-link{
-  display:inline-block;
-  margin-top:2px;
-  padding:6px 10px;
-  border-radius:8px;
-  text-decoration:none;
-  color:var(--accent);
-  background: rgba(125,211,252,0.05);
-  box-shadow: 0 2px 6px rgba(7,20,36,0.35);
-  transition: transform .12s, box-shadow .12s;
-  font-size:13px;
-}
+    html { font-size: 16px; }
+    body {
+      font-family: var(--ff-sans);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-/* hover effect for About */
-.about-link:hover{
-  transform: translateY(-3px);
-  box-shadow: 0 6px 18px rgba(7,20,36,0.45);
-}
+    /* ── NAV ── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 99;
+      background: rgba(13,13,13,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 40px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-brand {
+      font-family: var(--ff-mono);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+    .nav-brand .amber { color: var(--amber); }
+    .nav-links { display: flex; align-items: center; gap: 32px; }
+    .nav-link {
+      font-family: var(--ff-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--soft);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .nav-link:hover, .nav-link.active { color: var(--amber); }
 
-/* keep the small description centered and readable */
-.muted.desc{
-  max-width:820px;
-  display:block;
-  text-align:center;
-  font-size:13px;
-  margin-top:4px;
-}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
-    .card{background:var(--card);border-radius:12px;overflow:hidden;box-shadow:0 6px 18px rgba(2,6,23,0.6);cursor:pointer;transition:transform .14s}
-    .card:hover{transform:translateY(-6px)}
-    .cover{height:140px;background:#061222;background-size:cover;background-position:center}
-    .meta{padding:12px}
-    .meta h3{margin:0 0 8px 0;font-size:16px}
-    .muted{color:var(--muted);font-size:13px}
-    .excerpt{margin-top:8px;color:#d7e3fbcc;font-size:14px}
-    #postView{display:none}
-    #postView .post{background:var(--card);padding:20px;border-radius:10px}
-    .back{display:inline-block;margin-bottom:10px;text-decoration:none;color:var(--accent)}
-    img.responsive{max-width:100%;height:auto;border-radius:6px}
-    pre{background:#000a12;padding:12px;border-radius:8px;overflow:auto}
-#postContent img,
-#postContent video,
-#postContent iframe,
-#postContent table {
-  max-width: 100% !important;
-  width: auto !important;
-  height: auto !important;
-  display: block;
-  box-sizing: border-box;
-}
+    /* ── WRAP ── */
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
 
-#postContent,
-#postContent p,
-#postContent li {
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-word;
-}
+    /* ── HERO ── */
+    .hero {
+      padding: 80px 0 64px;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      gap: 40px;
+    }
+    .hero-eyebrow {
+      font-family: var(--ff-mono);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 24px;
+      height: 1px;
+      background: var(--amber);
+    }
+    .hero-title {
+      font-family: var(--ff-serif);
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 800;
+      color: var(--text);
+      line-height: 0.95;
+      letter-spacing: -1px;
+    }
+    .hero-title .amber { color: var(--amber); }
+    .hero-sub {
+      margin-top: 24px;
+      font-size: 15px;
+      color: var(--soft);
+      font-weight: 300;
+      line-height: 1.7;
+      max-width: 480px;
+    }
+    .hero-sub strong { color: var(--text); font-weight: 500; }
 
-#postContent pre {
-  overflow-x: auto;
-  white-space: pre;
-}
+    .hero-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 16px;
+      padding-bottom: 4px;
+    }
+    .hero-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--ff-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: var(--green);
+    }
+    .status-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 10px var(--green);
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
 
-html, body {
-  max-width: 100%;
-  overflow-x: hidden;
-}
-    @media (max-width:600px){body{padding:12px}.cover{height:110px}}
+    .hero-role {
+      font-family: var(--ff-mono);
+      font-size: 11px;
+      color: var(--muted);
+      text-align: right;
+      line-height: 1.9;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── ARTICLES ── */
+    .articles-head {
+      padding: 44px 0 24px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+    .articles-head-title {
+      font-family: var(--ff-mono);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+    .articles-head-count {
+      font-family: var(--ff-mono);
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* card grid */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      padding-bottom: 80px;
+    }
+
+    .article-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.18s, transform 0.18s;
+      overflow: hidden;
+    }
+    .article-card:hover {
+      border-color: var(--border-hi);
+      transform: translateY(-4px);
+    }
+    .article-card:hover .card-title { color: var(--amber); }
+
+    .card-cover {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(20%);
+      transition: filter 0.2s;
+    }
+    .article-card:hover .card-cover { filter: grayscale(0%); }
+    .card-cover-placeholder {
+      width: 100%; height: 180px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--ff-mono); font-size: 10px; color: var(--muted);
+    }
+
+    .card-body {
+      padding: 22px 22px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .card-num {
+      font-family: var(--ff-mono);
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    .card-title {
+      font-family: var(--ff-serif);
+      font-size: 21px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.25;
+      transition: color 0.15s;
+      text-wrap: pretty;
+    }
+
+    .card-meta {
+      font-family: var(--ff-mono);
+      font-size: 10.5px;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    .card-excerpt {
+      font-size: 13.5px;
+      color: var(--soft);
+      font-weight: 300;
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .card-cta {
+      font-family: var(--ff-mono);
+      font-size: 11px;
+      color: var(--amber);
+      letter-spacing: 0.06em;
+      margin-top: 4px;
+    }
+
+    /* ── POST VIEW ── */
+    #postView { display: none; }
+
+    .post-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 60px 0 100px;
+    }
+
+    .post-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--ff-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      margin-bottom: 48px;
+      transition: color 0.14s;
+    }
+    .post-back:hover { color: var(--amber); }
+
+    .post-title {
+      font-family: var(--ff-serif);
+      font-size: clamp(28px, 5vw, 44px);
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 16px;
+      text-wrap: pretty;
+    }
+
+    .post-meta-row {
+      font-family: var(--ff-mono);
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 48px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+      letter-spacing: 0.06em;
+    }
+
+    /* ── POST CONTENT ── */
+    #postContent {
+      font-family: var(--ff-sans);
+      font-size: 16px;
+      line-height: 1.85;
+      color: #c8c0b0;
+      font-weight: 300;
+    }
+    #postContent h1, #postContent h2, #postContent h3 {
+      font-family: var(--ff-serif);
+      color: var(--text);
+      font-weight: 600;
+      margin: 2.2em 0 0.8em;
+      line-height: 1.25;
+    }
+    #postContent h1 { font-size: 30px; }
+    #postContent h2 { font-size: 24px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+    #postContent h3 { font-size: 18px; font-family: var(--ff-mono); color: var(--amber); font-weight: 500; letter-spacing: 0.04em; }
+    #postContent p { margin-bottom: 1.4em; }
+    #postContent ul, #postContent ol { margin: 0 0 1.4em 1.6em; }
+    #postContent li { margin-bottom: 0.5em; }
+    #postContent a { color: var(--amber); text-decoration: underline; text-underline-offset: 3px; opacity: 0.9; }
+    #postContent a:hover { opacity: 1; }
+    #postContent strong { color: var(--text); font-weight: 500; }
+    #postContent code {
+      font-family: var(--ff-mono);
+      font-size: 13px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 2px 6px;
+      color: var(--amber);
+    }
+    #postContent pre {
+      background: #080808;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--amber);
+      padding: 22px 24px;
+      overflow-x: auto;
+      margin: 0 0 1.6em;
+    }
+    #postContent pre code {
+      background: none; border: none; padding: 0;
+      font-size: 13.5px; color: #b0a890;
+    }
+    #postContent img {
+      max-width: 100%; border: 1px solid var(--border);
+      margin: 1.4em 0; display: block;
+    }
+    #postContent blockquote {
+      border-left: 3px solid var(--amber);
+      padding: 4px 0 4px 20px;
+      color: var(--soft);
+      margin: 1.6em 0;
+      font-style: italic;
+      font-family: var(--ff-serif);
+      font-size: 18px;
+    }
+    #postContent hr { border: none; border-top: 1px solid var(--border); margin: 2.4em 0; }
+    #postContent table { width: 100%; border-collapse: collapse; margin-bottom: 1.6em; }
+    #postContent th {
+      font-family: var(--ff-mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 14px;
+      text-align: left;
+    }
+    #postContent td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--soft);
+      font-size: 14.5px;
+    }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      border-top: 1px solid var(--border);
+      margin-top: 60px;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 28px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-brand {
+      font-family: var(--ff-mono);
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .footer-brand .amber { color: var(--amber); }
+    .footer-links { display: flex; gap: 28px; }
+    .footer-links a {
+      font-family: var(--ff-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.14s;
+    }
+    .footer-links a:hover { color: var(--amber); }
+
+    /* ── LOADING ── */
+    .loading {
+      font-family: var(--ff-mono);
+      font-size: 12px;
+      color: var(--muted);
+      padding: 60px 0;
+      text-align: center;
+      letter-spacing: 0.1em;
+    }
+
+    @media (max-width: 700px) {
+      .wrap { padding: 0 20px; }
+      .nav-inner { padding: 0 20px; }
+      .footer-inner { padding: 20px; flex-direction: column; gap: 16px; text-align: center; }
+      .hero { grid-template-columns: 1fr; padding: 52px 0 44px; }
+      .hero-right { align-items: flex-start; }
+      .hero-role { text-align: left; }
+      .card-grid { grid-template-columns: 1fr; }
+      .nav-links { gap: 20px; }
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header class="site-header">
-  <h1 class="site-name">0xKimmy</h1>
-  <a class="about-link" href="About/about.html" title="About 0xKimmy">About</a>
-  <small class="muted desc">This website features articles about Cyber Security, SOC Analysis, and Automation by Rakan Adnan.</small>
-</header>
 
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="nav-brand" href="index.html"><span class="amber">0x</span>Kimmy</a>
+      <div class="nav-links">
+        <a class="nav-link active" href="index.html">Articles</a>
+        <a class="nav-link" href="About/about.html">About</a>
+        <a class="nav-link" href="https://github.com/IkimmyI" target="_blank" rel="noopener">GitHub</a>
+        <a class="nav-link" href="https://www.linkedin.com/in/rakan-adnan-39911a238/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </nav>
 
-    <main id="listView">
-      <div id="cards" class="grid"></div>
-    </main>
+  <!-- LIST VIEW -->
+  <main id="listView">
+    <div class="wrap">
 
-    <section id="postView">
-      <a href="#" id="backBtn" class="back">← back to list</a>
-      <div id="postContent" class="post"></div>
-    </section>
-  </div>
+      <div class="hero">
+        <div class="hero-left">
+          <div class="hero-eyebrow">Security Research &amp; Analysis</div>
+          <h1 class="hero-title"><span class="amber">0x</span>Kimmy</h1>
+          <p class="hero-sub">
+            Writing about <strong>detection engineering</strong>, SOC automation,
+            and real-world defensive security by Rakan Adnan.
+          </p>
+        </div>
+        <div class="hero-right">
+          <div class="hero-role">
+            SOC Analyst L2<br>
+            SOAR Engineer<br>
+            Blue Teamer
+          </div>
+        </div>
+      </div>
+
+      <div class="articles-head">
+        <div class="articles-head-title">Articles</div>
+        <div class="articles-head-count" id="postCount"></div>
+      </div>
+
+      <div class="card-grid" id="cards">
+        <div class="loading">Loading</div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- POST VIEW -->
+  <section id="postView">
+    <div class="wrap">
+      <div class="post-wrap">
+        <a href="#" id="backBtn" class="post-back">← Articles</a>
+        <h1 class="post-title" id="postTitle"></h1>
+        <div class="post-meta-row" id="postMeta"></div>
+        <div id="postContent"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand"><span class="amber">0x</span>Kimmy · Rakan Adnan</div>
+      <div class="footer-links">
+        <a href="About/about.html">About</a>
+        <a href="https://github.com/IkimmyI" target="_blank" rel="noopener">GitHub</a>
+        <a href="mailto:rakandawod01@gmail.com">Email</a>
+      </div>
+    </div>
+  </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
-  
-    const cardsEl = document.getElementById('cards');
-    const postView = document.getElementById('postView');
-    const listView = document.getElementById('listView');
+    const cardsEl     = document.getElementById('cards');
+    const postView    = document.getElementById('postView');
+    const listView    = document.getElementById('listView');
     const postContent = document.getElementById('postContent');
-    const backBtn = document.getElementById('backBtn');
-
+    const postTitle   = document.getElementById('postTitle');
+    const postMeta    = document.getElementById('postMeta');
+    const backBtn     = document.getElementById('backBtn');
+    const postCount   = document.getElementById('postCount');
     let POSTS = [];
 
-    function formatDate(s){ try{ return new Date(s).toLocaleDateString() }catch(e){return s} }
+    function formatDate(s) {
+      try { return new Date(s).toLocaleDateString('en-GB', { year:'numeric', month:'long', day:'numeric' }); }
+      catch(e) { return s; }
+    }
+    function shortDate(s) {
+      try { return new Date(s).toLocaleDateString('en-GB', { month:'short', year:'numeric' }); }
+      catch(e) { return s; }
+    }
 
-    async function loadIndex(){
-      try{
+    async function loadIndex() {
+      try {
         const res = await fetch('posts/posts.json');
-        if(!res.ok) throw new Error('posts.json not found');
+        if (!res.ok) throw new Error('posts.json not found');
         POSTS = await res.json();
         renderCards();
         handleRouting();
-      }catch(e){
-        cardsEl.innerHTML = `<div style="grid-column:1/-1;padding:30px;background:rgba(0,0,0,0.2);border-radius:8px">Could not load posts.json — add <code>/posts/posts.json</code> to your repo. Error: ${e.message}</div>`;
+      } catch(e) {
+        cardsEl.innerHTML = `<div class="loading">Error: ${e.message}</div>`;
       }
     }
 
-    function renderCards(){
-      cardsEl.innerHTML = POSTS.map(p => `
-        <article class="card" data-slug="${p.slug}" onclick="openPost('${p.slug}')">
-          <div class="cover" style="background-image:url('${p.cover || ''}')"></div>
-          <div class="meta">
-            <h3>${p.title}</h3>
-            <div class="muted">${formatDate(p.date)} • ${p.slug}</div>
-            <div class="excerpt">${p.excerpt || ''}</div>
+    function renderCards() {
+      postCount.textContent = POSTS.length + ' post' + (POSTS.length !== 1 ? 's' : '');
+      cardsEl.innerHTML = POSTS.map((p, i) => {
+        const cover = p.cover
+          ? `<img class="card-cover" src="${p.cover}" alt="${p.title}"/>`
+          : `<div class="card-cover-placeholder">[no image]</div>`;
+        return `
+        <article class="article-card" onclick="openPost('${p.slug}')">
+          ${cover}
+          <div class="card-body">
+            <div class="card-num">${String(i + 1).padStart(2, '0')}</div>
+            <div class="card-title">${p.title}</div>
+            <div class="card-meta">${shortDate(p.date)}</div>
+            ${p.excerpt ? `<div class="card-excerpt">${p.excerpt}</div>` : ''}
+            <div class="card-cta">Read article →</div>
           </div>
-        </article>
-      `).join('');
+        </article>`;
+      }).join('');
     }
 
-    async function openPost(slug){
+    async function openPost(slug) {
       const post = POSTS.find(p => p.slug === slug);
-      if(!post) return alert('post not found');
-      history.pushState({post:slug}, '', `#post=${slug}`);
+      if (!post) return;
+      history.pushState({ post: slug }, '', `#post=${slug}`);
       showPost(post);
     }
 
-    async function showPost(post){
+    async function showPost(post) {
       listView.style.display = 'none';
       postView.style.display = 'block';
-      postContent.innerHTML = '<em>loading…</em>';
-      try{
+      postTitle.textContent = post.title;
+      postMeta.textContent = formatDate(post.date);
+      postContent.innerHTML = `<div class="loading">Loading</div>`;
+      window.scrollTo(0, 0);
+      try {
         const res = await fetch(post.file.replace(/^\/+/, ''));
-        if(!res.ok) throw new Error('markdown not found');
+        if (!res.ok) throw new Error('file not found');
         let md = await res.text();
+        const dir = post.file.includes('/') ? post.file.substring(0, post.file.lastIndexOf('/') + 1) : '';
         let html = marked.parse(md);
-
-        const postDir = post.file.includes('/') ? post.file.substring(0, post.file.lastIndexOf('/')+1) : '';
-        html = html.replace(/(<img[^>]+src=")(?!(https?:|\/))([^\"]+)(")/g, (m,a,b,c,d)=> a + postDir + c + d);
-
-        html = html.replace(/(<a[^>]+href=")(?!(https?:|mailto:|\/))([^\"]+)(")/g, (m,a,b,c,d)=> a + postDir + c + d);
-        postContent.innerHTML = `<h2>${post.title}</h2><div class="muted">${formatDate(post.date)}</div><hr>` + html;
-      }catch(e){ postContent.innerHTML = `<div class="muted">Error loading post: ${e.message}</div>` }
+        html = html.replace(/(<img[^>]+src=")(?!(https?:|\/))([^"]+)(")/g, (m,a,b,c,d) => a+dir+c+d);
+        html = html.replace(/(<a[^>]+href=")(?!(https?:|mailto:|\/))([^"]+)(")/g, (m,a,b,c,d) => a+dir+c+d);
+        postContent.innerHTML = html;
+      } catch(e) {
+        postContent.innerHTML = `<div class="loading">Error: ${e.message}</div>`;
+      }
     }
 
-    function closePost(){
+    function closePost() {
       history.pushState({}, '', window.location.pathname);
       postView.style.display = 'none';
       listView.style.display = 'block';
+      window.scrollTo(0, 0);
     }
 
-    window.addEventListener('popstate', () => { handleRouting(); });
-    window.addEventListener('hashchange', () => { handleRouting(); });
-
-    function handleRouting(){
+    function handleRouting() {
       const h = location.hash || '';
-      if(h.startsWith('#post=')){ const slug = h.split('=')[1]; const post = POSTS.find(p=>p.slug===slug); if(post) showPost(post); }
-      else closePost();
+      if (h.startsWith('#post=')) {
+        const slug = h.slice(6);
+        const post = POSTS.find(p => p.slug === slug);
+        if (post) showPost(post); else closePost();
+      } else closePost();
     }
 
-    backBtn.addEventListener('click', (e)=>{ e.preventDefault(); closePost(); });
-
+    window.addEventListener('popstate', handleRouting);
+    backBtn.addEventListener('click', e => { e.preventDefault(); closePost(); });
     loadIndex();
   </script>
 </body>
