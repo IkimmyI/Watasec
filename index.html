@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>WtataSec</title>
+  <title>WataSec</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Space+Grotesk:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -152,11 +152,17 @@
     }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
 
+    .hero-gif {
+      position: fixed;
+      bottom: 0;
+      right: 32px;
+      width: 140px;
+      image-rendering: auto;
+      z-index: 50;
+      pointer-events: none;
+    }
+
     .hero-role {
-      font-family: var(--ff-mono);
-      font-size: 11px;
-      color: var(--muted);
-      text-align: right;
       line-height: 1.9;
       letter-spacing: 0.04em;
     }
@@ -464,6 +470,7 @@
 
       <div class="hero">
         <div class="hero-left">
+          <div class="hero-eyebrow">Security Research &amp; Analysis</div>
           <h1 class="hero-title"><span class="amber">Wata</span>Sec</h1>
           <p class="hero-sub">
             Writing about <strong>detection engineering</strong>, SOC automation,
@@ -617,5 +624,6 @@
     backBtn.addEventListener('click', e => { e.preventDefault(); closePost(); });
     loadIndex();
   </script>
+  <img src="anime.gif" alt="" class="hero-gif"/>
 </body>
 </html>
