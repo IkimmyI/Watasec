@@ -22,5 +22,13 @@
     "excerpt": "Quick guide on implementing LOLBAS defenses within a Security Operations Center (SOC) environment.",
     "file": "posts/LOLBAS Defenses for SOC/LOLBAS Defenses for SOC.md",
     "cover": "posts/Thumbnail/lolbas.png"
+  },
+  {
+    "title": "From Scratch to SIEM: Full Splunk Implementation and Automation with Docker",
+    "slug": "From Scratch to SIEM: Full Splunk Implementation and Automation with Docker",
+    "date": "2026-5-28",
+    "excerpt": "In this guide, I will take you on a step-by-step how to build a Security Information and Event Management (SIEM) environment using Splunk.",
+    "file": "posts/From Scratch to SIEM Full Splunk Implementation and Automation with Docker/From-Scratch-to-SIEM-Full-Splunk-Implementation-and-Automation-with-Docker.md",
+    "cover": "posts/Thumbnail/splunk_docker.png"
   }
 ]
