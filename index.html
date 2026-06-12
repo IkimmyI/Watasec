@@ -535,7 +535,7 @@
           ? `<img class="card-cover" src="${p.cover}" alt="${p.title}"/>`
           : `<div class="card-cover-placeholder">[no image]</div>`;
         return `
-        <article class="article-card" onclick="openPost(${JSON.stringify(p.slug)})">
+        <article class="article-card" data-slug="${p.slug.replace(/&/g,'&amp;').replace(/"/g,'&quot;')}">
           ${cover}
           <div class="card-body">
             <div class="card-category">Article</div>
@@ -601,6 +601,12 @@
         listView.style.display = 'block';
       }
     }
+
+    // Card click via delegation — avoids inline onclick quote conflicts with slugs
+    document.getElementById('cards').addEventListener('click', e => {
+      const card = e.target.closest('[data-slug]');
+      if (card) openPost(card.dataset.slug);
+    });
 
     window.addEventListener('popstate', handleRouting);
     backBtn.addEventListener('click', e => { e.preventDefault(); closePost(); });
