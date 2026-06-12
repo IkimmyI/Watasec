@@ -535,7 +535,7 @@
           ? `<img class="card-cover" src="${p.cover}" alt="${p.title}"/>`
           : `<div class="card-cover-placeholder">[no image]</div>`;
         return `
-        <article class="article-card" onclick="openPost('${p.slug}')">
+        <article class="article-card" onclick="openPost(${JSON.stringify(p.slug)})">
           ${cover}
           <div class="card-body">
             <div class="card-category">Article</div>
@@ -551,7 +551,7 @@
     async function openPost(slug) {
       const post = POSTS.find(p => p.slug === slug);
       if (!post) return;
-      history.pushState({ post: slug }, '', `#post=${slug}`);
+      history.pushState({ post: slug }, '', `#post=${encodeURIComponent(slug)}`);
       showPost(post);
     }
 
@@ -586,10 +586,20 @@
     function handleRouting() {
       const h = location.hash || '';
       if (h.startsWith('#post=')) {
-        const slug = h.slice(6);
+        // decodeURIComponent handles both encoded (%20) and plain spaces in the hash
+        const slug = decodeURIComponent(h.slice(6));
         const post = POSTS.find(p => p.slug === slug);
-        if (post) showPost(post); else closePost();
-      } else closePost();
+        if (post) {
+          showPost(post);
+        } else {
+          // Slug not found — show list without wiping the URL
+          postView.style.display = 'none';
+          listView.style.display = 'block';
+        }
+      } else {
+        postView.style.display = 'none';
+        listView.style.display = 'block';
+      }
     }
 
     window.addEventListener('popstate', handleRouting);
